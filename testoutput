@@ -1,0 +1,23 @@
+MPlayer 1.3.0 (Debian), built with gcc-7 (C) 2000-2016 MPlayer Team
+
+Playing Music/Shawn Mendes - Treat You Better - MP3 320.mp3.
+libavformat version 57.83.100 (external)
+Audio only file format detected.
+Clip info:
+ Title: Treat You Better [FazMusic.Net
+ Artist: Shawn Mendes [FazMusic.Net]   
+ Album: Treat You Better - Single     
+ Year: 2016
+ Comment:                             
+ Track: 1
+ Genre: Other
+==========================================================================
+Opening audio decoder: [mpg123] MPEG 1.0/2.0/2.5 layers I, II, III
+AUDIO: 44100 Hz, 2 ch, s16le, 320.0 kbit/22.68% (ratio: 40000->176400)
+Selected audio codec: [mpg123] afm: mpg123 (MPEG 1.0/2.0/2.5 layers I, II, III)
+==========================================================================
+AO: [pulse] 44100Hz 2ch s16le (2 bytes per sample)
+Video: no video
+Starting playback...
+
+Exiting... (Quit)

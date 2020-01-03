@@ -1,0 +1,111 @@
+#!/bin/bash
+
+HEIGHT=17
+WIDTH=45
+CHOICE_HEIGHT=8
+BACKTITLE="OS Lab Project"
+MENU="Select one of the following Options:"
+
+split(){
+IFS='|'
+read -ra ADDR <<< "$1"
+for i in "${ADDR[@]}"; do # access each element of array
+    echo "$i" >> Playlist.m3u 
+done
+}
+
+
+music(){
+TITLE="Music Player"
+	while [[ 1 ]]
+do
+OPTIONS=(1 "Add files to playlist"
+         2 "Clear Playlist"
+         3 "Play"
+	 4 "List Playlist")
+
+         CHOICE=$(dialog --clear \
+                --backtitle "$BACKTITLE" \
+                --title "$TITLE" \
+                --menu "$MENU" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                2>&1 >/dev/tty)
+
+if [ "$?" -eq 0 ]
+       	then 
+	case $CHOICE in
+1)
+	selectedFile=$(zenity --file-selection --file-filter="MP3 Files | *.mp3" --multiple);
+	split "$selectedFile";
+	;;
+2)	
+	echo "" > Playlist.m3u;
+	;;
+3)
+	if [ -s "Playlist.m3u" ] && [ "$( cat Playlist.m3u | wc -w )" != 0 ]
+	then
+		mplayer -noautosub -playlist Playlist.m3u
+	else
+	zenity --error --text="No Songs in playlist";
+	fi
+	;;
+4)
+	while IFS= read -r line;do
+		echo "${line##*/}" >> list
+	done < Playlist.m3u
+	dialog --clear --textbox list 50 100
+	echo "" > list
+esac
+elif [ "$?" -eq 1 ]; then
+	break;
+fi
+done
+}
+
+
+
+
+
+
+while [[ 1 ]]
+do
+TITLE="Main Menu"
+
+OPTIONS=(1 "Music Player"
+	 2 "Computer Maintenance"
+         3 "System Monitor"
+         4 "Clock"
+         5 "Software Center"
+         6 "Extras"
+         7 "Shut Down"
+         8 "About"
+         9 "Exit") ##Main Menu
+
+	 CHOICE=$(dialog --clear \
+                --backtitle "$BACKTITLE" \
+                --title "$TITLE" \
+                --menu "$MENU" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                2>&1 >/dev/tty)
+if [ "$?" -eq 0 ]; then
+ case $CHOICE in
+	 1)
+		music;	
+	
+	;;
+4)	color=$(( ( RANDOM % 7 ) ))
+	tty-clock -rsC $color
+esac
+elif [ "$?" -eq 1 ]; then ##MAIN MENU IF USER PRESSED CANCEL
+          dialog --title "Exit" \
+                 --backtitle "$BACKTITLE / Exit" \
+                 --infobox "Goodbye!" 3 20;
+                 sleep 1.2;
+                 clear;
+                 exit 0;
+        fi
+done
+
+
